@@ -179,7 +179,7 @@ def supprimer_client(update: Update, context: CallbackContext):
 
 # === Main ===
 def main():
-    TOKEN = os.getenv("8457419998:AAEEdd9G9oqal74JIYcFd7omaoJWcpPGWCM")  # 🔥 Token via variable d'environnement
+    TOKEN = os.getenv("BOT_TOKEN")  # 🔥 Token via variable d'environnement
     if not TOKEN:
         raise ValueError("⚠️ TELEGRAM_TOKEN non défini. Ajoute-le dans Render Environment Variables.")
 
