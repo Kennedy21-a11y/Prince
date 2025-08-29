@@ -13,13 +13,14 @@ CHOOSING, COCHAGE, RECHARGING, DELETING = range(4)
 
 # === Charger police compatible emoji ===
 def load_font(size):
-    fonts = ["seguiemj.ttf", "seguiemj", "Segoe UI Emoji", "arial.ttf"]
+    fonts = ["seguiemj.ttf", "ARIAL.TTF"]  # on va chercher d’abord dans assets
     for f in fonts:
         try:
-            return ImageFont.truetype(f, size)
+            return ImageFont.truetype(os.path.join("assets", f), size)
         except:
             continue
-    return ImageFont.load_default()
+    return ImageFont.load_default()  # fallback minuscule si rien trouvé
+
 
 # === Trouver centres automatiquement via masque ===
 def trouver_centres(mask_path):
