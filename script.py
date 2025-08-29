@@ -182,7 +182,7 @@ def supprimer_client(update: Update, context: CallbackContext):
 def main():
     TOKEN = os.getenv("BOT_TOKEN")  # 🔥 Token via variable d'environnement
     if not TOKEN:
-        raise ValueError("⚠️ TELEGRAM_TOKEN non défini. Ajoute-le dans Render Environment Variables.")
+        raise ValueError("⚠️ BOT_TOKEN non défini. Ajoute-le dans Render Environment Variables.")
 
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
@@ -201,7 +201,19 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(conv_handler)
 
-    updater.start_polling()
+    # 🔥 Webhook mode pour Render
+    PORT = int(os.environ.get("PORT", 10000))  
+    HEROKU_APP_NAME = os.environ.get("RENDER_EXTERNAL_URL")  # Render fournit cette variable
+    if not HEROKU_APP_NAME:
+        raise ValueError("⚠️ Variable RENDER_EXTERNAL_URL non définie par Render.")
+
+    updater.start_webhook(
+        listen="0.0.0.0",
+        port=PORT,
+        url_path=TOKEN,
+        webhook_url=f"{HEROKU_APP_NAME}/{TOKEN}"
+    )
+
     updater.idle()
 
 if __name__ == "__main__":
